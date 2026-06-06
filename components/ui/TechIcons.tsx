@@ -22,7 +22,8 @@ const DARK_MODE_INVERT_ICONS = new Set([
 // Hook-aware wrapper: reads theme and applies correct filter
 export function TechIcon({ name }: { name: string }) {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  // Default to dark (app default) while theme is resolving to avoid flash
+  const isDark = resolvedTheme !== "light";
   const needsInvert = DARK_MODE_INVERT_ICONS.has(name);
   const filterStyle = needsInvert ? { filter: isDark ? "invert(1)" : "invert(0)" } : undefined;
 

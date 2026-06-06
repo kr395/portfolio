@@ -31,7 +31,8 @@ const SOCIALS = [
 
 export const SocialLinks = () => {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  // Default to dark (app default) while theme is resolving to avoid flash
+  const isDark = resolvedTheme !== "light";
 
   return (
     <div className="flex items-center gap-4 mt-6">
