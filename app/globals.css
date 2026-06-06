@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Map Tailwind's dark: variant to the data-theme="dark" attribute */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ============================================================
    THEME TOKENS — set on :root via data-theme attribute
    ============================================================ */
@@ -32,12 +35,12 @@
   --outline:                  #958ea0;
   --outline-variant:          #494454;
 
-  /* Semantic glass layers */
-  --glass-panel-bg:           rgba(23, 31, 51, 0.85);
-  --glass-card-bg:            #171f33;
+  /* Semantic glass layers - highly visible bento borders */
+  --glass-panel-bg:           rgba(255, 255, 255, 0.03);
+  --glass-card-bg:            rgba(255, 255, 255, 0.02);
   --glass-artboard-bg:        #0b1326;
-  --glass-border:             rgba(255, 255, 255, 0.06);
-  --glass-border-high:        rgba(255, 255, 255, 0.10);
+  --glass-border:             rgba(255, 255, 255, 0.12);
+  --glass-border-high:        rgba(255, 255, 255, 0.25);
 
   /* Canvas grid dot color */
   --canvas-dot:               rgba(255, 255, 255, 0.04);
@@ -66,43 +69,43 @@
   --secondary-rgb: 0, 104, 122;        /* #00687a — Deep Cyan */
   --tertiary-rgb: 185, 5, 56;          /* #b90538 — Tertiary Rose */
 
-  /* Surface hierarchy */
-  --surface:                  #faf8ff;
-  --surface-dim:              #d2d9f4;
-  --surface-bright:           #faf8ff;
-  --surface-container-lowest: #ffffff;
-  --surface-container-low:    #f2f3ff;
-  --surface-container:        #eaedff;
-  --surface-container-high:   #e2e7ff;
-  --surface-container-highest:#dae2fd;
+  /* Surface hierarchy — clear stepped contrast for card layering */
+  --surface:                  #ece9ff;   /* page canvas: cool-violet tint */
+  --surface-dim:              #d4cff5;
+  --surface-bright:           #ffffff;
+  --surface-container-lowest: #ffffff;   /* innermost / modal */
+  --surface-container-low:    #f7f5ff;   /* primary card bg */
+  --surface-container:        #edeaff;   /* secondary card bg */
+  --surface-container-high:   #e2deff;   /* badge / chip bg */
+  --surface-container-highest:#d6d0ff;   /* inset / accent zones */
 
-  /* Text colors */
-  --on-surface:               #131b2e;
-  --on-surface-variant:       #494454;
-  --inverse-surface:          #283044;
+  /* Text — deep ink for maximum contrast */
+  --on-surface:               #0e1424;
+  --on-surface-variant:       #2e2848;
+  --inverse-surface:          #1a2235;
   --inverse-on-surface:       #eef0ff;
 
-  /* Outline / border */
-  --outline:                  #7b7486;
-  --outline-variant:          #cbc3d7;
+  /* Outlines */
+  --outline:                  #5a3fa8;
+  --outline-variant:          #b8b0e0;
 
-  /* Semantic glass layers */
-  --glass-panel-bg:           rgba(242, 243, 255, 0.85);
-  --glass-card-bg:            #f2f3ff;
-  --glass-artboard-bg:        #faf8ff;
-  --glass-border:             rgba(0, 0, 0, 0.06);
-  --glass-border-high:        rgba(0, 0, 0, 0.10);
+  /* Glass layers — crisp white cards on violet canvas, vivid borders */
+  --glass-panel-bg:           rgba(255, 255, 255, 0.80);
+  --glass-card-bg:            rgba(255, 255, 255, 0.95);
+  --glass-artboard-bg:        #ffffff;
+  --glass-border:             rgba(107, 56, 212, 0.30);  /* vivid violet — always punchy */
+  --glass-border-high:        rgba(107, 56, 212, 0.60);  /* active / hover state */
 
   /* Canvas grid */
-  --canvas-dot:               rgba(107, 56, 212, 0.06);
-  --canvas-bg:                #f5f3ff;
+  --canvas-dot:               rgba(107, 56, 212, 0.10);
+  --canvas-bg:                #f0eeff;
 
   /* Scrollbar */
-  --scrollbar-track:          #eaedff;
-  --scrollbar-thumb:          #cbc3d7;
-  --scrollbar-thumb-hover:    #958ea0;
+  --scrollbar-track:          #e4e0ff;
+  --scrollbar-thumb:          #b0a8d8;
+  --scrollbar-thumb-hover:    #7b60c8;
 
-  /* Scanlines are too harsh on white — hide them */
+  /* No scanlines on light */
   --scanlines-opacity:        0;
 }
 
@@ -111,12 +114,22 @@
    ============================================================ */
 html {
   scroll-behavior: smooth;
+  /* Fluid base font: 14px on small screens → 15px on large */
+  font-size: clamp(13.5px, 1.5vw + 10px, 15px);
 }
 
 body {
   background-color: var(--surface);
   color: var(--on-surface);
   transition: var(--theme-transition);
+  line-height: 1.6;
+}
+
+/* On touch / pointer: coarse devices, show the system cursor normally */
+@media (pointer: coarse) {
+  html, body, html *, body * {
+    cursor: auto !important;
+  }
 }
 
 /* ============================================================
@@ -169,17 +182,37 @@ body {
 /* Interactive card */
 .glass-card {
   background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
+  border: 1.5px solid var(--glass-border);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   transform-style: preserve-3d;
   will-change: transform, border-color, box-shadow;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .glass-card:hover {
-  border-color: rgba(var(--primary-rgb), 0.4);
+  border-color: rgba(var(--primary-rgb), 0.55);
   box-shadow:
-    0 0 30px rgba(var(--primary-rgb), 0.12),
-    0 0 10px rgba(var(--secondary-rgb), 0.08);
+    0 0 30px rgba(var(--primary-rgb), 0.15),
+    0 0 10px rgba(var(--secondary-rgb), 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Light-mode specific card amplification */
+[data-theme="light"] .glass-card {
+  background: var(--glass-card-bg);
+  box-shadow:
+    0 1px 3px rgba(107, 56, 212, 0.08),
+    0 4px 16px rgba(107, 56, 212, 0.10),
+    0 0 0 1px rgba(107, 56, 212, 0.06);
+}
+
+[data-theme="light"] .glass-card:hover {
+  box-shadow:
+    0 2px 8px rgba(107, 56, 212, 0.15),
+    0 8px 32px rgba(107, 56, 212, 0.18),
+    0 0 0 1px rgba(107, 56, 212, 0.12);
 }
 
 /* Light-tube decorative divider */
@@ -203,7 +236,6 @@ body {
    ============================================================ */
 .scanlines {
   position: relative;
-  overflow-x: hidden;
 }
 
 .scanlines::before {
@@ -270,13 +302,15 @@ body {
 }
 
 /* ============================================================
-   CURSOR — hide system cursor globally
+   CURSOR — hide system cursor on pointer-fine devices only
    ============================================================ */
-html,
-body,
-html *,
-body * {
-  cursor: none !important;
+@media (pointer: fine) {
+  html,
+  body,
+  html *,
+  body * {
+    cursor: none !important;
+  }
 }
 
 /* ============================================================
@@ -289,3 +323,189 @@ body * {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ============================================================
+   BENTO GRID SYSTEM
+   ============================================================ */
+
+/* Main grid container — clear 16px/24px gaps */
+.bento-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 32px 32px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    gap: 24px;
+    padding: 0 64px 64px 64px;
+  }
+}
+
+/* ============================================================
+   VIEW TRANSITIONS API
+   ============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* Standard bento cell — floating rounded card */
+.bento-cell {
+  background: var(--surface-container-low);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.bento-cell:hover {
+  border-color: rgba(var(--primary-rgb), 0.45);
+  box-shadow:
+    0 8px 40px rgba(var(--primary-rgb), 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Alternate bento cell (subtle offset bg) */
+.bento-cell-alt {
+  background: var(--surface-container);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.bento-cell-alt:hover {
+  border-color: rgba(var(--primary-rgb), 0.45);
+  box-shadow:
+    0 8px 40px rgba(var(--primary-rgb), 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Glass card style for nested bento cards */
+.bento-card {
+  border: 1.5px solid var(--glass-border);
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.bento-card.rounded-none {
+  border-radius: 0;
+}
+
+.bento-card:hover {
+  border-color: rgba(var(--primary-rgb), 0.5);
+  background: var(--glass-card-bg);
+  box-shadow:
+    0 12px 40px rgba(var(--primary-rgb), 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Light-mode amplification for bento cells */
+[data-theme="light"] .bento-cell,
+[data-theme="light"] .bento-cell-alt {
+  background: var(--surface-container-low);
+  box-shadow:
+    0 1px 4px rgba(107, 56, 212, 0.08),
+    0 6px 24px rgba(107, 56, 212, 0.10),
+    0 0 0 0.5px rgba(107, 56, 212, 0.12);
+}
+
+[data-theme="light"] .bento-cell:hover,
+[data-theme="light"] .bento-cell-alt:hover {
+  box-shadow:
+    0 4px 12px rgba(107, 56, 212, 0.16),
+    0 12px 40px rgba(107, 56, 212, 0.18),
+    0 0 0 1px rgba(107, 56, 212, 0.20);
+}
+
+[data-theme="light"] .bento-card {
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 2px 8px rgba(107, 56, 212, 0.10),
+    0 8px 28px rgba(107, 56, 212, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .bento-card:hover {
+  box-shadow:
+    0 4px 16px rgba(107, 56, 212, 0.18),
+    0 16px 48px rgba(107, 56, 212, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* ============================================================
+   CONSISTENT TYPE SCALE  (use these instead of arbitrary px)
+   ============================================================ */
+
+/* Display — hero heading */
+.text-display {
+  font-size: clamp(2rem, 5vw + 0.5rem, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* Section heading */
+.text-section {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Card / item heading */
+.text-card-title {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Standard readable body */
+.text-body {
+  font-size: 0.875rem;   /* 14px */
+  line-height: 1.65;
+}
+
+/* Small body / captions */
+.text-caption {
+  font-size: 0.75rem;    /* 12px */
+  line-height: 1.55;
+}
+
+/* Mono labels (tracking) */
+.text-mono-label {
+  font-size: 0.625rem;   /* 10px */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Badge / chip text */
+.text-badge {
+  font-size: 0.6875rem;  /* 11px */
+  letter-spacing: 0.04em;
+}
+

@@ -44,7 +44,7 @@ export default function JourneyPage() {
         title: "Portfolio v1",
         desc: "First iteration of a personal developer portfolio focusing on semantic HTML5 structure, CSS custom variables, responsive flex grids, and vanilla JS interactions.",
         badges: ["HTML5", "CSS3", "Vanilla JS", "BEM Methodology"],
-        link: "#",
+        link: "https://github.com/kr395",
         mockupData: (
           <div className="flex h-full flex-col bg-[var(--surface-container-lowest)] p-2 text-[8px] font-mono-technical text-[var(--on-surface-variant)]">
             <div className="mb-2 flex items-center justify-between border-b border-[var(--glass-border)] pb-1">
@@ -71,19 +71,19 @@ export default function JourneyPage() {
           title: "Responsive Templates",
           desc: "A collection of mobile-first architectural layouts built purely with flexbox and custom media queries.",
           badges: ["HTML5", "CSS Flexbox", "Mobile First"],
-          link: "#",
+          link: "https://github.com/kr395",
         },
         {
           title: "Dynamic Task Board",
           desc: "Local storage-powered task checklist dashboard with drag-and-drop column states and tag filters.",
           badges: ["JavaScript", "Local Storage", "Drag & Drop"],
-          link: "#",
+          link: "https://github.com/kr395",
         },
         {
           title: "CSS Art Collection",
           desc: "Vector-like cartoon illustrations built entirely using CSS shapes, transforms, and transition scales.",
           badges: ["CSS Variables", "Keyframe Effects", "Transforms"],
-          link: "#",
+          link: "https://github.com/kr395",
         },
       ],
     },
@@ -96,7 +96,7 @@ export default function JourneyPage() {
         title: "E-Commerce Dashboard",
         desc: "A data-heavy, real-time shop analytics dashboard featuring live chart updates, order metrics trackers, state caches, and responsive table views.",
         badges: ["React", "Zustand", "Recharts", "Tailwind CSS"],
-        link: "#",
+        link: "https://github.com/kr395",
         mockupData: (
           <div className="flex h-full flex-col bg-[var(--surface-container-lowest)] p-2 text-[8px] font-body-jakarta">
             <div className="mb-2 flex items-center justify-between border-b border-[var(--glass-border)] pb-1">
@@ -135,7 +135,7 @@ export default function JourneyPage() {
           title: "Interactive Space",
           desc: "Custom markdown-based developer documentation engine with reactive component sandboxes.",
           badges: ["Next.js", "MDX", "PrismJS", "Tailwind CSS"],
-          link: "#",
+          link: "https://github.com/kr395",
         },
       ],
     },
@@ -148,7 +148,7 @@ export default function JourneyPage() {
         title: "Cyber Gallery",
         desc: "An immersive virtual 3D showroom for high-fashion digital clothing and assets featuring real-time light overlays and spatial wireframe geometries.",
         badges: ["Three.js", "React Three Fiber", "GSAP", "WebGL"],
-        link: "#",
+        link: "https://github.com/kr395",
         mockupData: (
           <div className="flex h-full flex-col bg-[var(--surface-container-lowest)] p-2 text-[8px] font-mono-technical text-[var(--on-surface-variant)]">
             <div className="mb-2 flex items-center justify-between border-b border-[var(--glass-border)] pb-1">
@@ -206,7 +206,7 @@ export default function JourneyPage() {
       <Navbar scrollToSection={scrollToSection} />
 
       {/* Page Header */}
-      <div className="max-w-5xl mx-auto px-6 pt-12 md:pt-16 text-left w-full relative z-10">
+      <div className="max-w-[1400px] mx-auto px-8 md:px-16 pt-8 sm:pt-12 md:pt-16 text-left w-full relative z-10">
         <Link
           href="/"
           className="text-[10px] font-bold font-mono-technical text-[rgb(var(--primary-rgb))] hover:opacity-80 transition-opacity flex items-center gap-1.5 mb-4 group cursor-pointer w-fit select-none"
@@ -225,51 +225,107 @@ export default function JourneyPage() {
       </div>
 
       {/* Workspace Grid */}
-      <section className="max-w-5xl mx-auto px-6 py-12 md:py-16 w-full relative z-10">
+      <section className="max-w-[1400px] mx-auto px-8 md:px-16 py-8 md:py-16 w-full relative z-10">
         <div className="grid grid-cols-12 gap-8 items-start">
 
-          {/* Left: Year Selector */}
-          <div className="col-span-12 md:col-span-3 flex flex-row md:flex-col justify-between md:justify-start items-center md:items-stretch gap-6 select-none relative">
+          {/* ── Left: Year Selector ── */}
+          <div className="col-span-12 md:col-span-3 select-none">
 
-            {/* Timeline track line */}
-            <div
-              className="hidden md:block absolute left-4 -translate-x-1/2 top-8 bottom-8 w-[2px] z-0"
-              style={{ background: "var(--glass-border-high)" }}
-            />
-            {/* Progress fill */}
-            <div
-              style={{
-                top: "2rem",
-                height: activeYear === "2022" ? "0%" : activeYear === "2023" ? "50%" : "100%",
-                transition: "height 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              className="hidden md:block absolute left-4 -translate-x-1/2 w-[2px] bg-gradient-to-b from-[rgb(var(--primary-rgb))] to-[rgb(var(--secondary-rgb))] z-10 shadow-[0_0_8px_rgba(var(--primary-rgb),0.5)]"
-            />
-
-            {["2022", "2023", "2024"].map((yr) => {
-              const isActive = activeYear === yr;
-              return (
-                <button
-                  key={yr}
-                  onClick={() => setActiveYear(yr)}
-                  className={`relative z-20 flex items-center gap-4 py-2 md:py-3 px-4 md:pl-10 text-left cursor-pointer focus:outline-none transition-all ${
-                    isActive
-                      ? "text-[rgb(var(--primary-rgb))] font-bold scale-105"
-                      : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
-                  }`}
-                >
-                  {/* Node bullet */}
-                  <div
-                    className={`hidden md:block absolute left-4 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 border-2 transition-all ${
+            {/* Mobile: horizontal tab row */}
+            <div className="flex md:hidden gap-2 overflow-x-auto no-scrollbar pb-1 mb-6">
+              {(["2024", "2023", "2022"] as const).map((yr) => {
+                const isActive = activeYear === yr;
+                return (
+                  <button
+                    key={yr}
+                    onClick={() => setActiveYear(yr)}
+                    className={`flex-shrink-0 px-4 py-2 text-sm font-bold font-syne border transition-all duration-300 cursor-pointer focus:outline-none rounded-sm ${
                       isActive
-                        ? "border-[rgb(var(--primary-rgb))] bg-[rgb(var(--primary-rgb))] shadow-[0_0_10px_rgba(var(--primary-rgb),0.8)]"
-                        : "bg-[var(--surface-container)] border-[var(--outline-variant)]"
+                        ? "border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] bg-[rgb(var(--primary-rgb))]/10 shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)] scale-105"
+                        : "border-[var(--glass-border)] text-[var(--on-surface-variant)] hover:text-[rgb(var(--primary-rgb))] hover:border-[rgb(var(--primary-rgb))]/50 hover:bg-[rgb(var(--primary-rgb))]/5"
                     }`}
-                  />
-                  <span className="font-syne text-xl md:text-2xl tracking-tighter">{yr}</span>
-                </button>
-              );
-            })}
+                  >
+                    {yr}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Desktop: vertical flex timeline */}
+            <div className="hidden md:flex flex-col">
+              {(["2024", "2023", "2022"] as const).map((yr, index) => {
+                const isActive = activeYear === yr;
+                const activeYearNum = parseInt(activeYear);
+                const itemYearNum = parseInt(yr);
+                const isPast = itemYearNum <= activeYearNum;
+                const isLast = index === 2;
+
+                return (
+                  <div key={yr} className="flex items-stretch">
+                    {/* Rail column: connector-above + dot + connector-below */}
+                    <div className="flex flex-col items-center w-8 flex-shrink-0 mr-2">
+                      {/* Connector above (transparent spacer for first item to center dot) */}
+                      <div
+                        className="w-[2px] flex-1 min-h-[10px] transition-all duration-500"
+                        style={{
+                          background: index > 0
+                            ? (isPast
+                              ? `linear-gradient(to bottom, rgba(var(--secondary-rgb),0.8), rgba(var(--primary-rgb),1))`
+                              : "var(--glass-border-high)")
+                            : "transparent",
+                        }}
+                      />
+                      
+                      {/* Node dot */}
+                      <div
+                        className={`w-3.5 h-3.5 flex-shrink-0 border-2 transition-all duration-300 ${
+                          isActive
+                            ? "border-[rgb(var(--primary-rgb))] bg-[rgb(var(--primary-rgb))] shadow-[0_0_12px_rgba(var(--primary-rgb),0.8)]"
+                            : isPast
+                            ? "border-[rgb(var(--secondary-rgb))] bg-[rgb(var(--secondary-rgb))]/20"
+                            : "border-[var(--outline-variant)] bg-[var(--surface-container)]"
+                        }`}
+                      />
+                      
+                      {/* Connector below (transparent spacer for last item to center dot) */}
+                      <div
+                        className="w-[2px] flex-1 min-h-[10px] transition-all duration-500"
+                        style={{
+                          background: !isLast
+                            ? (parseInt((["2024", "2023", "2022"])[index+1]) <= activeYearNum
+                              ? `linear-gradient(to bottom, rgba(var(--primary-rgb),1), rgba(var(--secondary-rgb),0.8))`
+                              : "var(--glass-border-high)")
+                            : "transparent",
+                        }}
+                      />
+                    </div>
+
+                    {/* Year label button */}
+                    <button
+                      onClick={() => setActiveYear(yr)}
+                      className={`flex-1 py-4 px-4 text-left cursor-pointer focus:outline-none transition-all duration-300 rounded-md group flex flex-col justify-center min-h-[72px] ${
+                        isActive
+                          ? "bg-[rgba(var(--primary-rgb),0.08)] shadow-[inset_2px_0_0_rgb(var(--primary-rgb))]"
+                          : "hover:bg-[rgba(var(--primary-rgb),0.03)]"
+                      }`}
+                    >
+                      <span className={`font-syne text-2xl tracking-tighter block leading-none transition-all duration-300 ${
+                        isActive 
+                          ? "text-[rgb(var(--primary-rgb))] font-extrabold scale-110 origin-left translate-x-1" 
+                          : "text-[var(--on-surface-variant)] group-hover:text-[rgb(var(--primary-rgb))] group-hover:scale-105 origin-left"
+                        }`}>
+                        {yr}
+                      </span>
+                      {isActive && (
+                        <span className="text-[9px] font-mono-technical text-[rgb(var(--primary-rgb))]/80 tracking-widest uppercase block mt-1.5 animate-pulse translate-x-1">
+                          ACTIVE
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Right: Year Detail */}
@@ -300,22 +356,26 @@ export default function JourneyPage() {
                     {selectedData.coreProject.badges.map((badge, bIdx) => (
                       <span
                         key={bIdx}
-                        className="border border-[var(--glass-border)] bg-[var(--surface-container-high)] px-2 py-0.5 text-[8px] md:text-[9px] font-mono-technical text-[rgb(var(--primary-rgb))]"
+                        className="border border-[rgba(var(--primary-rgb),0.2)] bg-[rgba(var(--primary-rgb),0.08)] px-2.5 py-1 text-[8px] md:text-[9px] font-bold font-mono-technical text-[rgb(var(--primary-rgb))] rounded-sm"
                       >
                         {badge}
                       </span>
                     ))}
                   </div>
-                  <h4 className="text-lg md:text-xl font-bold text-[var(--on-surface)] font-syne">
+                  <h4 className="text-lg md:text-xl font-extrabold text-[var(--on-surface)] font-syne tracking-tight">
                     {selectedData.coreProject.title}
                   </h4>
-                  <p className="text-xs text-[var(--on-surface-variant)] leading-relaxed font-body-jakarta">
+                  <p className="text-xs text-[var(--on-surface)] opacity-80 leading-relaxed font-body-jakarta font-medium mb-1">
                     {selectedData.coreProject.desc}
                   </p>
                   {selectedData.coreProject.link !== "#" && (
-                    <a href={selectedData.coreProject.link} target="_blank" rel="noreferrer">
-                      <Button variant="outline" size="sm" className="mt-2 w-fit cursor-pointer">
-                        VIEW ON GITHUB →
+                    <a href={selectedData.coreProject.link} target="_blank" rel="noreferrer" className="mt-1 w-fit">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 px-4 text-[10px] font-bold font-mono-technical tracking-widest uppercase bg-[rgba(var(--primary-rgb),0.05)] border-[rgba(var(--primary-rgb),0.3)] text-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] hover:text-white hover:border-[rgb(var(--primary-rgb))] hover:shadow-[0_4px_12px_rgba(var(--primary-rgb),0.3)] transition-all duration-300"
+                      >
+                        Visit ↗
                       </Button>
                     </a>
                   )}
@@ -337,8 +397,8 @@ export default function JourneyPage() {
                 {selectedData.otherProjects.map((proj, pIdx) => (
                   <TiltCard key={pIdx} className="p-4 flex flex-col justify-between min-h-[140px]">
                     <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-xs md:text-sm font-bold text-[var(--on-surface)] font-syne">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="text-sm md:text-base font-extrabold text-[var(--on-surface)] font-syne tracking-tight">
                           {proj.title}
                         </h4>
                         {proj.link !== "#" && (
@@ -346,23 +406,27 @@ export default function JourneyPage() {
                             href={proj.link}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[var(--on-surface-variant)] hover:text-[rgb(var(--primary-rgb))] transition-colors cursor-pointer"
+                            className="flex-shrink-0 ml-3"
                           >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                            </svg>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 px-3 text-[9px] font-bold font-mono-technical tracking-widest uppercase bg-[rgba(var(--primary-rgb),0.05)] border-[rgba(var(--primary-rgb),0.3)] text-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] hover:text-white hover:border-[rgb(var(--primary-rgb))] hover:shadow-[0_4px_12px_rgba(var(--primary-rgb),0.3)] transition-all duration-300"
+                            >
+                              Visit ↗
+                            </Button>
                           </a>
                         )}
                       </div>
-                      <p className="text-[10px] md:text-[10.5px] text-[var(--on-surface-variant)] leading-relaxed font-body-jakarta">
+                      <p className="text-[10px] md:text-[11px] text-[var(--on-surface)] opacity-80 leading-relaxed font-body-jakarta font-medium mb-1 flex-1">
                         {proj.desc}
                       </p>
                     </div>
-                    <div className="flex flex-wrap gap-1 mt-4">
+                    <div className="flex flex-wrap gap-1.5 mt-auto">
                       {proj.badges.map((badge, bIdx) => (
                         <span
                           key={bIdx}
-                          className="border border-[var(--glass-border)] bg-[var(--surface-container-high)] px-1.5 py-0.5 text-[8px] font-mono-technical text-[rgb(var(--primary-rgb))]/80"
+                          className="border border-[rgba(var(--primary-rgb),0.2)] bg-[rgba(var(--primary-rgb),0.08)] px-2 py-0.5 text-[8px] font-bold font-mono-technical text-[rgb(var(--primary-rgb))] rounded-sm"
                         >
                           {badge}
                         </span>

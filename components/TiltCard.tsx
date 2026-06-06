@@ -44,7 +44,7 @@ export const TiltCard = ({ children, className = "" }: TiltCardProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className={`glass-card rounded-none ${className}`}
+      className={`bento-card ${className}`}
     >
       {children}
     </div>

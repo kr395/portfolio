@@ -2,20 +2,26 @@
 
 import React from "react";
 
-export const Footer = () => {
-  return (
-    <footer className="bg-[var(--surface-container-lowest)]/60 border-t border-[var(--glass-border)] p-6 md:p-8 select-none font-mono-technical text-[9px] md:text-[10px] text-[var(--on-surface-variant)] py-12 md:py-16 w-full transition-colors duration-300">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center w-full gap-6 md:gap-0">
-        <div className="text-center md:text-left flex flex-col gap-1">
-          <span className="font-syne text-sm text-[rgb(var(--primary-rgb))] font-bold">KR</span>
-          <span>© 2026 KR — Engineered for the Future</span>
-        </div>
-        <div className="flex gap-6 text-[10px] md:text-[10.5px]">
-          <a className="hover:text-[rgb(var(--primary-rgb))] transition-colors cursor-pointer" href="#instagram">Instagram</a>
-          <a className="hover:text-[rgb(var(--primary-rgb))] transition-colors cursor-pointer" href="#linkedin">LinkedIn</a>
-          <a className="hover:text-[rgb(var(--primary-rgb))] transition-colors cursor-pointer" href="#github">GitHub</a>
-        </div>
+export const Footer = () => (
+  <footer className="px-5 sm:px-8 md:px-14 py-10 md:py-14 w-full transition-colors duration-300 select-none">
+    <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0">
+      <div className="text-center sm:text-left flex flex-col gap-1">
+        <span className="font-syne text-base sm:text-lg text-[rgb(var(--primary-rgb))] font-extrabold tracking-tight">KR</span>
+        <span className="text-caption font-mono-technical text-[var(--on-surface-variant)]">
+          © 2026 KR — Engineered for the Future
+        </span>
       </div>
-    </footer>
-  );
-};
+      <div className="flex gap-6">
+        {["Instagram", "LinkedIn", "GitHub"].map((link) => (
+          <a
+            key={link}
+            className="text-caption font-mono-technical text-[var(--on-surface-variant)] hover:text-[rgb(var(--primary-rgb))] transition-colors cursor-pointer uppercase tracking-wider"
+            href={`#${link.toLowerCase()}`}
+          >
+            {link}
+          </a>
+        ))}
+      </div>
+    </div>
+  </footer>
+);

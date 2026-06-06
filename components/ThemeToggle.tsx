@@ -8,17 +8,68 @@ import { useTheme } from "@/lib/theme";
  * Mounts only on client to avoid SSR hydration mismatch.
  */
 export const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
     // Render a fixed-size placeholder so layout doesn't shift
-    return <div className="w-8 h-8" aria-hidden />;
+    return <div className="w-10 h-10" aria-hidden />;
   }
 
-  const isDark = theme === "dark";
+  const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
+
+  const toggleTheme = () => {
+    const nextTheme = isDark ? "light" : "dark";
+
+    // Fallback if View Transitions API is not supported
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    // Get the toggle button coordinates
+    const button = document.getElementById("theme-toggle");
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top + rect.height / 2;
+    }
+
+    // Calculate distance to the furthest corner to ensure the circle covers the whole screen
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = document.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ];
+
+      document.documentElement.animate(
+        {
+          clipPath,
+        },
+        {
+          duration: 600,
+          easing: "ease-in-out",
+          // Force the new view to be the one that animates (expands) over the old view
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
+  };
 
   return (
     <button
@@ -28,7 +79,7 @@ export const ThemeToggle = () => {
       title={isDark ? "Light mode" : "Dark mode"}
       className={`
         relative flex items-center justify-center
-        w-8 h-8 rounded-sm
+        w-10 h-10 rounded-sm
         border transition-all duration-300 focus:outline-none
         ${isDark
           ? "border-white/10 bg-white/5 hover:bg-white/10 hover:border-[rgba(var(--primary-rgb),0.4)]"
@@ -65,8 +116,8 @@ export const ThemeToggle = () => {
 
 const SunIcon = () => (
   <svg
-    width="14"
-    height="14"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -89,8 +140,8 @@ const SunIcon = () => (
 
 const MoonIcon = () => (
   <svg
-    width="13"
-    height="13"
+    width="17"
+    height="17"
     viewBox="0 0 24 24"
     fill="currentColor"
     className="text-[rgba(var(--primary-rgb),0.9)]"

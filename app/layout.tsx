@@ -42,26 +42,15 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${plusJakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        {/* ── Anti-flash theme script ──
-            Runs synchronously before paint so the user never sees the wrong theme.
-            Must stay in <head> as a raw script tag, not a Next Script component.  */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                var stored = localStorage.getItem('portfolio-theme');
-                var preferred = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-                document.documentElement.setAttribute('data-theme', preferred);
-              } catch(e) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-              }
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col bg-[var(--surface)] text-[var(--on-surface)]">
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="min-h-full flex flex-col bg-[var(--surface)] text-[var(--on-surface)] transition-colors duration-300">
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
