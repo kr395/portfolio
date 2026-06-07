@@ -16,7 +16,7 @@ export const ThemeToggle = () => {
 
   if (!mounted) {
     // Render a fixed-size placeholder so layout doesn't shift
-    return <div className="w-10 h-10" aria-hidden />;
+    return <div className="w-10 h-10" aria-hidden={true} />;
   }
 
   const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
@@ -25,7 +25,7 @@ export const ThemeToggle = () => {
     const nextTheme = isDark ? "light" : "dark";
 
     // Fallback if View Transitions API is not supported
-    if (!document.startViewTransition) {
+    if (!("startViewTransition" in document)) {
       setTheme(nextTheme);
       return;
     }
@@ -47,7 +47,13 @@ export const ThemeToggle = () => {
       Math.max(y, window.innerHeight - y)
     );
 
-    const transition = document.startViewTransition(() => {
+    interface DocumentWithViewTransition extends Document {
+      startViewTransition(callback: () => void): {
+        ready: Promise<void>;
+      };
+    }
+
+    const transition = (document as DocumentWithViewTransition).startViewTransition(() => {
       setTheme(nextTheme);
     });
 

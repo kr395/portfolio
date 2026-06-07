@@ -10,17 +10,18 @@ interface Project {
   badges: string[];
   link: string;
   mockupData: React.ReactNode;
+  mockupHeightClass?: string;
 }
 
-const MockupShell = ({ children }: { children: React.ReactNode }) => (
-  <div className="w-full h-28 border border-[var(--glass-border)] bg-[var(--surface-container-lowest)] mb-4 overflow-hidden rounded-md">
+const MockupShell = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+  <div className={`w-full border border-[var(--glass-border)] bg-[var(--surface-container-lowest)] mb-4 overflow-hidden rounded-md ${className || "h-28"}`}>
     {children}
   </div>
 );
 
 const ProjectCard = ({ proj }: { proj: Project }) => (
   <TiltCard className="p-4 sm:p-5 flex flex-col select-text text-left h-full group">
-    <MockupShell>{proj.mockupData}</MockupShell>
+    <MockupShell className={proj.mockupHeightClass}>{proj.mockupData}</MockupShell>
     <div className="flex items-start justify-between mb-3">
       <h4 className="text-card-title font-extrabold text-[var(--on-surface)] font-syne tracking-tight">{proj.title}</h4>
       <a
@@ -66,30 +67,14 @@ export const Projects = () => {
       title: "FinTrack",
       desc: "Personal finance tracker with real-time analytics, automated transaction categories, and budgeting goals.",
       badges: ["Next.js", "Neon DB", "Tailwind CSS", "Recharts"],
-      link: "https://github.com/gopal-das/fintrack",
+      link: "https://finaitracker.vercel.app/",
+      mockupHeightClass: "h-48 sm:h-56",
       mockupData: (
-        <div className="flex h-full flex-col bg-[var(--surface-container-lowest)] p-2 text-[8px] font-body-jakarta">
-          <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-1 mb-2">
-            <span className="font-semibold text-[var(--on-surface)] text-[9px]">FinTrack Dashboard</span>
-            <span className="bg-emerald-500/15 px-1.5 py-0.5 text-[7px] text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">Active</span>
-          </div>
-          <div className="grid grid-cols-3 gap-1 mb-2">
-            {[["Balance","$14,285","text-[var(--on-surface)]"],["Income","+$3,250","text-emerald-500"],["Expenses","-$1,890","text-rose-500"]].map(([l,v,c])=>(
-              <div key={l} className="bg-[var(--surface-container)] p-1 border border-[var(--glass-border)]">
-                <span className="text-[6px] text-[var(--on-surface-variant)] block">{l}</span>
-                <span className={`font-bold text-[9px] ${c}`}>{v}</span>
-              </div>
-            ))}
-          </div>
-          <div className="flex-1 bg-[var(--surface-container)] border border-[var(--glass-border)] p-1 flex flex-col justify-end">
-            <div className="flex items-end gap-1 h-8 px-1">
-              {[4,6,3,5,7].map((h,i)=><div key={i} className={`w-2 ${i===3?"bg-rose-500":"bg-emerald-500"}`} style={{height:`${h*4}px`}}/>)}
-            </div>
-            <div className="flex justify-between text-[5px] text-[var(--on-surface-variant)] mt-1">
-              {["Mon","Tue","Wed","Thu","Fri"].map(d=><span key={d}>{d}</span>)}
-            </div>
-          </div>
-        </div>
+        <iframe 
+          src="https://finaitracker.vercel.app/" 
+          className="w-full h-full border-none" 
+          title="FinTrack Live Preview"
+        />
       ),
     },
     {
