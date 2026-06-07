@@ -47,13 +47,7 @@ export const ThemeToggle = () => {
       Math.max(y, window.innerHeight - y)
     );
 
-    interface DocumentWithViewTransition extends Document {
-      startViewTransition(callback: () => void): {
-        ready: Promise<void>;
-      };
-    }
-
-    const transition = (document as DocumentWithViewTransition).startViewTransition(() => {
+    const transition = (document as any).startViewTransition(() => {
       setTheme(nextTheme);
     });
 
